@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavesh Nayi — Senior WordPress Developer</title>
+<meta name="description" content="Bhavesh Nayi — Senior WordPress Developer. WordPress, PHP, Webflow, Wix, WooCommerce, Page Speed Optimization, Block Development. Ahmedabad, India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0D13;
+  --bg-elevated:#10141C;
+  --surface:#151B26;
+  --surface-hover:#1B2230;
+  --border:#232B39;
+  --border-soft:#1A2029;
+  --text-primary:#EAEEF5;
+  --text-secondary:#9AA5B5;
+  --text-tertiary:#5D6779;
+
+  --accent:#4F7CFF;
+  --accent-dim:#3A5BC7;
+  --accent-soft:rgba(79,124,255,.12);
+  --good:#34D399;
+  --good-soft:rgba(52,211,153,.12);
+  --bad:#F87171;
+  --bad-soft:rgba(248,113,113,.12);
+  --amber:#F5B461;
+
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --container:1180px;
+
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+html[data-theme="light"]{
+  --bg:#F7F8FA;
+  --bg-elevated:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-hover:#F0F2F6;
+  --border:#E3E7EE;
+  --border-soft:#EBEEF3;
+  --text-primary:#111521;
+  --text-secondary:#525C6E;
+  --text-tertiary:#8891A0;
+  --accent:#3B63D9;
+  --accent-dim:#2C4CB0;
+  --accent-soft:rgba(59,99,217,.08);
+  --good:#0F9D63;
+  --good-soft:rgba(15,157,99,.09);
+  --bad:#DC3B3B;
+  --bad-soft:rgba(220,59,59,.08);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+body{
+  background:var(--bg);
+  color:var(--text-primary);
+  font-family:var(--font-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  transition:background .4s var(--ease), color .4s var(--ease);
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;cursor:pointer;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+
+.wrap{max-width:var(--container);margin:0 auto;padding:0 32px;}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;
+}
+.eyebrow::before{
+  content:"";width:7px;height:7px;border-radius:2px;background:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em;color:var(--text-primary);}
+.section-title{font-size:clamp(28px,3.6vw,42px);line-height:1.15;}
+.section-sub{color:var(--text-secondary);font-size:16.5px;max-width:560px;margin-top:14px;}
+section{position:relative;padding:120px 0;}
+.mono{font-family:var(--font-mono);}
+.text-secondary{color:var(--text-secondary);}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.is-visible{opacity:1;transform:translateY(0);}
+
+::selection{background:var(--accent);color:#fff;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  background:color-mix(in srgb, var(--bg) 72%, transparent);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s var(--ease), background .3s var(--ease);
+}
+.nav.scrolled{border-bottom-color:var(--border-soft);}
+.nav-inner{max-width:var(--container);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:var(--font-mono);font-weight:700;font-size:15px;display:flex;align-items:center;gap:9px;}
+.nav-logo .dot{width:8px;height:8px;background:var(--good);border-radius:2px;box-shadow:0 0 0 4px var(--good-soft);}
+.nav-links{display:flex;gap:2px;list-style:none;}
+.nav-links a{
+  font-size:13.5px;color:var(--text-secondary);padding:9px 14px;border-radius:8px;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--text-primary);background:var(--surface-hover);}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.theme-toggle{
+  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,color .2s;
+}
+.theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
+.theme-toggle svg{width:17px;height:17px;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;
+  border:1px solid transparent;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 20px -6px rgba(79,124,255,.55);}
+.btn-primary:hover{box-shadow:0 10px 26px -6px rgba(79,124,255,.7);}
+.btn-ghost{background:var(--surface);color:var(--text-primary);border-color:var(--border);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.nav-cta{display:none;}
+@media(min-width:860px){.nav-cta{display:inline-flex;}}
+.nav-links{display:none;}
+@media(min-width:860px){.nav-links{display:flex;}}
+.burger{display:flex;border:1px solid var(--border);background:var(--surface);width:38px;height:38px;border-radius:10px;align-items:center;justify-content:center;}
+@media(min-width:860px){.burger{display:none;}}
+
+/* HERO */
+.hero{padding:180px 0 100px;overflow:hidden;position:relative;}
+.hero-bg-grid{
+  position:absolute;inset:0;z-index:-2;
+  background-image:linear-gradient(var(--border-soft) 1px,transparent 1px),linear-gradient(90deg,var(--border-soft) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 70% 55% at 50% 20%,#000 30%,transparent 75%);
+  opacity:.7;
+}
+.hero-glow{position:absolute;top:-220px;left:50%;transform:translateX(-50%);width:900px;height:600px;z-index:-1;
+  background:radial-gradient(closest-side, var(--accent-soft), transparent 70%);filter:blur(10px);}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:56px;align-items:center;}
+@media(min-width:1000px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:40px;}}
+.hero-kicker{font-family:var(--font-mono);font-size:13px;color:var(--good);display:flex;align-items:center;gap:9px;margin-bottom:22px;}
+.hero-kicker .pulse{width:8px;height:8px;border-radius:50%;background:var(--good);position:relative;}
+.hero-kicker .pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--good);animation:pulse 2s infinite;}
+@keyframes pulse{0%{transform:scale(1);opacity:.7;}100%{transform:scale(2.6);opacity:0;}}
+.hero h1{font-size:clamp(38px,5.6vw,60px);line-height:1.06;letter-spacing:-.02em;}
+.hero h1 span{color:var(--accent);}
+.hero-sub{margin-top:24px;font-size:18px;color:var(--text-secondary);max-width:540px;line-height:1.6;}
+.hero-actions{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap;}
+.hero-meta{display:flex;gap:28px;margin-top:52px;flex-wrap:wrap;}
+.hero-meta div{font-family:var(--font-mono);font-size:12.5px;color:var(--text-tertiary);}
+.hero-meta strong{display:block;font-family:var(--font-display);font-size:22px;color:var(--text-primary);font-weight:600;}
+
+.diff-card{
+  background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;box-shadow:0 30px 70px -30px rgba(0,0,0,.6);
+}
+html[data-theme="light"] .diff-card{box-shadow:0 30px 60px -30px rgba(20,30,60,.18);}
+.diff-titlebar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface);
+}
+.diff-dots{display:flex;gap:6px;}
+.diff-dots span{width:10px;height:10px;border-radius:50%;background:var(--border);}
+.diff-filename{font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary);}
+.diff-body{padding:20px 22px;font-family:var(--font-mono);font-size:13px;line-height:2;}
+.diff-line{display:flex;gap:12px;padding:2px 0;border-radius:4px;}
+.diff-line .ln{color:var(--text-tertiary);flex-shrink:0;user-select:none;}
+.diff-line.hl{color:var(--good);}
+.diff-line.ctx{color:var(--text-secondary);}
+.diff-line.dim{color:var(--text-tertiary);}
+.diff-stat{
+  margin-top:14px;padding-top:16px;border-top:1px dashed var(--border);
+  display:flex;align-items:center;justify-content:space-between;font-family:var(--font-mono);font-size:12.5px;
+  color:var(--text-tertiary);
+}
+
+/* MARQUEE */
+.logos-strip{padding:52px 0;border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);}
+.logos-label{font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary);text-align:center;margin-bottom:26px;letter-spacing:.08em;text-transform:uppercase;}
+.marquee{overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.marquee-track{display:flex;gap:64px;width:max-content;animation:scroll-left 32s linear infinite;}
+.marquee:hover .marquee-track{animation-play-state:paused;}
+@keyframes scroll-left{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-item{font-family:var(--font-mono);font-size:15px;color:var(--text-tertiary);white-space:nowrap;display:flex;align-items:center;gap:10px;font-weight:500;}
+.marquee-item::before{content:"◆";font-size:8px;color:var(--border);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+@media(min-width:800px){.stats-grid{grid-template-columns:repeat(4,1fr);}}
+.stat-cell{background:var(--bg-elevated);padding:32px 26px;}
+.stat-num{font-family:var(--font-display);font-size:clamp(30px,4vw,42px);font-weight:700;color:var(--text-primary);}
+.stat-num .accentc{color:var(--accent);}
+.stat-label{margin-top:8px;font-size:13.5px;color:var(--text-secondary);}
+
+/* ABOUT / TIMELINE */
+.about-grid{display:grid;grid-template-columns:1fr;gap:60px;}
+@media(min-width:960px){.about-grid{grid-template-columns:.85fr 1.15fr;}}
+.values-list{display:grid;gap:14px;margin-top:28px;}
+.value-item{display:flex;gap:14px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);}
+.value-item .num{font-family:var(--font-mono);color:var(--accent);font-size:13px;flex-shrink:0;padding-top:2px;}
+.value-item h4{font-size:15px;margin-bottom:4px;}
+.value-item p{font-size:13.8px;color:var(--text-secondary);}
+
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border);}
+.tl-item{position:relative;padding-bottom:34px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{content:"";position:absolute;left:-28px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+.tl-item.current::before{background:var(--good);border-color:var(--good);}
+.tl-year{font-family:var(--font-mono);font-size:12.5px;color:var(--accent);margin-bottom:6px;}
+.tl-item.current .tl-year{color:var(--good);}
+.tl-item h4{font-size:16.5px;margin-bottom:6px;}
+.tl-item p{color:var(--text-secondary);font-size:14px;max-width:520px;}
+
+/* PROJECTS */
+.section-head{display:flex;flex-direction:column;gap:14px;margin-bottom:56px;}
+@media(min-width:760px){.section-head{flex-direction:row;justify-content:space-between;align-items:flex-end;}}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.filter-btn{
+  padding:8px 15px;border-radius:20px;border:1px solid var(--border);background:var(--surface);
+  font-size:12.8px;color:var(--text-secondary);transition:all .2s;
+}
+.filter-btn:hover{border-color:var(--accent);color:var(--text-primary);}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+.projects-grid{display:grid;grid-template-columns:1fr;gap:22px;}
+@media(min-width:720px){.projects-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1080px){.projects-grid{grid-template-columns:repeat(3,1fr);}}
+.project-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;cursor:pointer;transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;
+  display:flex;flex-direction:column;
+}
+.project-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(0,0,0,.5);}
+.project-cover{
+  height:120px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(120% 140% at 15% 0%, var(--accent-soft), transparent 55%),
+    var(--bg-elevated);
+  border-bottom:1px solid var(--border);
+}
+.project-cover .glyph{font-family:var(--font-mono);font-size:34px;font-weight:700;color:var(--border);letter-spacing:-.03em;transition:color .35s,transform .35s;}
+.project-card:hover .glyph{color:var(--accent);transform:scale(1.06);}
+.project-tag{position:absolute;top:14px;left:14px;font-family:var(--font-mono);font-size:11px;padding:4px 9px;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text-tertiary);}
+.project-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column;}
+.project-body h3{font-size:17px;margin-bottom:8px;}
+.project-body p{font-size:13.5px;color:var(--text-secondary);flex:1;}
+.project-link{margin-top:16px;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:6px;font-weight:600;}
+.project-link svg{width:14px;height:14px;transition:transform .25s;}
+.project-card:hover .project-link svg{transform:translateX(4px);}
+
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(4,6,10,.72);backdrop-filter:blur(6px);
+  display:flex;align-items:flex-start;justify-content:center;padding:48px 20px;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease);overflow-y:auto;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal{
+  background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);
+  max-width:640px;width:100%;padding:0;transform:translateY(24px) scale(.98);transition:transform .35s var(--ease);
+  box-shadow:0 40px 100px -30px rgba(0,0,0,.7);
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);}
+.modal-header{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
+.modal-header h3{font-size:22px;}
+.modal-header .modal-eyebrow{font-family:var(--font-mono);color:var(--accent);font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;}
+.modal-close{width:34px;height:34px;flex-shrink:0;border-radius:9px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);}
+.modal-close:hover{color:var(--text-primary);border-color:var(--accent);}
+.modal-body{padding:28px 32px 34px;display:grid;gap:18px;}
+.modal-block h4{font-size:12px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--text-tertiary);margin-bottom:8px;}
+.modal-block p{font-size:14.5px;color:var(--text-secondary);}
+.modal-visit{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:13.5px;font-weight:600;margin-top:4px;}
+
+/* PLUGIN */
+.plugin-card{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);padding:28px;display:grid;gap:18px;}
+.plugin-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+.plugin-head h3{font-size:20px;}
+.plugin-badge{font-family:var(--font-mono);font-size:11px;padding:5px 10px;border-radius:6px;background:var(--good-soft);color:var(--good);border:1px solid transparent;}
+.plugin-cols{display:grid;gap:20px;}
+@media(min-width:760px){.plugin-cols{grid-template-columns:1fr 1fr;}}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:720px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+.skill-row{display:flex;align-items:center;gap:16px;}
+.skill-name{width:190px;flex-shrink:0;font-size:13.8px;font-weight:500;}
+.skill-track{flex:1;height:6px;border-radius:3px;background:var(--border-soft);overflow:hidden;}
+.skill-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent-dim),var(--accent));width:0;transition:width 1.2s var(--ease);}
+.skill-pct{width:36px;text-align:right;font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary);}
+.skills-note{font-size:12.5px;color:var(--text-tertiary);margin-top:22px;}
+
+/* RESUME / CONTACT */
+.split{display:grid;grid-template-columns:1fr;gap:60px;}
+@media(min-width:960px){.split{grid-template-columns:1fr 1fr;}}
+.link-row{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);margin-bottom:10px;transition:border-color .2s;}
+.link-row:hover{border-color:var(--accent);}
+.link-row .l{display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:500;}
+.link-row .icon{width:34px;height:34px;border-radius:9px;background:var(--bg-elevated);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.link-row .icon svg{width:16px;height:16px;color:var(--accent);}
+.link-row .go{color:var(--text-tertiary);font-size:13px;flex-shrink:0;}
+.link-row .v{color:var(--text-secondary);font-size:13.5px;}
+
+.form-field{display:grid;gap:7px;margin-bottom:16px;}
+.form-field label{font-size:12.5px;font-family:var(--font-mono);color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.04em;}
+.form-field input,.form-field textarea{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;
+  color:var(--text-primary);font-family:var(--font-body);font-size:14.5px;transition:border-color .2s;resize:vertical;
+}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--accent);outline:none;}
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border-soft);padding:44px 0;}
+.footer-row{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center;}
+@media(min-width:760px){.footer-row{flex-direction:row;justify-content:space-between;text-align:left;}}
+.footer-links{display:flex;gap:22px;font-size:13.5px;color:var(--text-secondary);}
+.footer-links a:hover{color:var(--accent);}
+.footer-note{font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary);}
+
+[data-count]{font-variant-numeric:tabular-nums;}
+
+.stagger > *{opacity:0;transform:translateY(18px);}
+.stagger.is-visible > *{animation:staggerIn .7s var(--ease) forwards;}
+.stagger.is-visible > *:nth-child(1){animation-delay:.02s;}
+.stagger.is-visible > *:nth-child(2){animation-delay:.06s;}
+.stagger.is-visible > *:nth-child(3){animation-delay:.10s;}
+.stagger.is-visible > *:nth-child(4){animation-delay:.14s;}
+.stagger.is-visible > *:nth-child(5){animation-delay:.18s;}
+.stagger.is-visible > *:nth-child(6){animation-delay:.22s;}
+.stagger.is-visible > *:nth-child(n+7){animation-delay:.26s;}
+@keyframes staggerIn{to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo"><span class="dot"></span>bhavesh.dev</a>
+    <ul class="nav-links">
+      <li><a href="#about">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#plugin">Plugin</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+        <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a href="#contact" class="btn btn-primary nav-cta">Let's talk</a>
+      <button class="burger" aria-label="Menu" id="burgerBtn">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div id="top"></div>
+
+<header class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal is-visible">
+        <div class="hero-kicker"><span class="pulse"></span>SR. WORDPRESS DEVELOPER</div>
+        <h1>WordPress builds that <span>hold up</span> after launch.</h1>
+        <p class="hero-sub">I'm Bhavesh Nayi — a Senior WordPress Developer based in Ahmedabad with 7+ years across WordPress, PHP, Webflow and Wix. I've shipped 20+ client sites: custom themes, WooCommerce stores, page-speed fixes, API integrations and one published WordPress.org plugin.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View Projects
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="mailto:bhaveshnayi78@gmail.com" class="btn btn-ghost">Email Me</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong data-count="7" data-suffix="+">0</strong>Years Experience</div>
+          <div><strong data-count="23" data-suffix="+">0</strong>Projects Shipped</div>
+          <div><strong data-count="1" data-suffix="">0</strong>Published Plugin</div>
+          <div><strong data-count="4" data-suffix="">0</strong>Employers</div>
+        </div>
+      </div>
+
+      <div class="reveal is-visible">
+        <div class="diff-card">
+          <div class="diff-titlebar">
+            <div class="diff-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="diff-body">
+            <div class="diff-line hl"><span class="ln">▸</span><span>Weisetech Developer — Sr. WordPress Developer</span></div>
+            <div class="diff-line dim"><span class="ln">&nbsp;</span><span>&nbsp;&nbsp;since 1 Nov 2025 · current</span></div>
+            <div class="diff-line ctx"><span class="ln">▸</span><span>Icoderz Solutions — Sr. WordPress Developer</span></div>
+            <div class="diff-line dim"><span class="ln">&nbsp;</span><span>&nbsp;&nbsp;Dec 2021 – Oct 2025</span></div>
+            <div class="diff-line ctx"><span class="ln">▸</span><span>Vindaloo Softtech — WordPress Developer</span></div>
+            <div class="diff-line dim"><span class="ln">&nbsp;</span><span>&nbsp;&nbsp;Aug 2020 – Nov 2021</span></div>
+            <div class="diff-line ctx"><span class="ln">▸</span><span>World Wide Web Solutions — PHP WordPress Dev</span></div>
+            <div class="diff-line dim"><span class="ln">&nbsp;</span><span>&nbsp;&nbsp;Jan 2019 – Dec 2019</span></div>
+            <div class="diff-stat">
+              <span><div class="diff-line hl">★ Quarterly Performer Award — 2024</div></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="logos-strip">
+  <div class="wrap">
+    <p class="logos-label">Core Stack</p>
+    <div class="marquee">
+      <div class="marquee-track" id="marqueeTrack">
+        <span class="marquee-item">WordPress</span>
+        <span class="marquee-item">PHP</span>
+        <span class="marquee-item">WooCommerce</span>
+        <span class="marquee-item">Webflow</span>
+        <span class="marquee-item">Wix</span>
+        <span class="marquee-item">JavaScript</span>
+        <span class="marquee-item">jQuery</span>
+        <span class="marquee-item">Ajax</span>
+        <span class="marquee-item">HTML/CSS</span>
+        <span class="marquee-item">API Integration</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="stats-section" style="padding:100px 0 60px;">
+  <div class="wrap">
+    <div class="stats-grid reveal">
+      <div class="stat-cell"><div class="stat-num"><span data-count="7" data-suffix="+">0</span></div><div class="stat-label">Years building on WordPress</div></div>
+      <div class="stat-cell"><div class="stat-num"><span data-count="23" data-suffix="+">0</span></div><div class="stat-label">Projects delivered end‑to‑end</div></div>
+      <div class="stat-cell"><div class="stat-num"><span class="accentc" data-count="3" data-suffix="">0</span></div><div class="stat-label">Platforms — WordPress, Webflow, Wix</div></div>
+      <div class="stat-cell"><div class="stat-num"><span data-count="1" data-suffix="">0</span></div><div class="stat-label">Plugin published on WordPress.org</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="eyebrow">01 — About</div>
+        <h2 class="section-title">Seven years,<br>four employers, one focus.</h2>
+        <p class="section-sub">I build and maintain WordPress sites end-to-end — custom themes, WooCommerce stores, plugin development, page-speed optimization, and API/payment-gateway integrations — and I also ship on Webflow and Wix when a client's project calls for it.</p>
+        <div class="values-list">
+          <div class="value-item"><span class="num">01</span><div><h4>Full ownership</h4><p>From client requirements to a live, working site — theming, content structure, and integrations included.</p></div></div>
+          <div class="value-item"><span class="num">02</span><div><h4>Platform-flexible</h4><p>WordPress by default, but Webflow or Wix when a Figma-driven brief fits that platform better.</p></div></div>
+          <div class="value-item"><span class="num">03</span><div><h4>Integration-heavy</h4><p>Payment gateways (PayPal, Bitcoin, credit card), CRMs, and third-party APIs wired into the sites I build.</p></div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="timeline">
+          <div class="tl-item current">
+            <div class="tl-year">1 Nov 2025 — Present</div>
+            <h4>Sr. WordPress Developer — Weisetech Developer</h4>
+            <p>Current role, continuing senior WordPress development work.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Dec 2021 — Oct 2025</div>
+            <h4>Sr. WordPress Developer — Icoderz Solutions Pvt Ltd</h4>
+            <p>Nearly four years delivering client WordPress sites, including the bulk of the project list below. Received the Quarterly Performer award in 2024.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Aug 2020 — Nov 2021</div>
+            <h4>WordPress Developer — Vindaloo Softtech Pvt Ltd</h4>
+            <p>WordPress development for client sites, including the Vindaloo Softtech company site itself.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Jan 2019 — Dec 2019</div>
+            <h4>PHP WordPress Developer — World Wide Web Solutions</h4>
+            <p>First professional role — PHP and WordPress development.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">02 — Selected Work</div>
+        <h2 class="section-title">23 client sites,<br>three platforms.</h2>
+      </div>
+      <div class="filters" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="wordpress">WordPress</button>
+        <button class="filter-btn" data-filter="webflow">Webflow</button>
+        <button class="filter-btn" data-filter="wix">Wix</button>
+      </div>
+    </div>
+
+    <div class="projects-grid stagger" id="projectsGrid"></div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <div>
+        <div class="modal-eyebrow" id="modalEyebrow">Project</div>
+        <h3 id="modalTitle">Project</h3>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<section id="plugin" style="background:var(--bg-elevated);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">03 — Plugin</div>
+        <h2 class="section-title">Published on WordPress.org.</h2>
+      </div>
+    </div>
+
+    <div class="plugin-card reveal">
+      <div class="plugin-head">
+        <div>
+          <h3>Related Post Display</h3>
+          <p class="text-secondary" style="font-size:14px;margin-top:6px;">A WordPress plugin for displaying related posts, published on the official WordPress.org plugin directory.</p>
+        </div>
+        <span class="plugin-badge">● Published</span>
+      </div>
+      <div class="plugin-cols">
+        <div class="modal-block">
+          <h4>Where to find it</h4>
+          <a class="modal-visit" href="https://wordpress.org/plugins/related-posts-display" target="_blank" rel="noopener">
+            wordpress.org/plugins/related-posts-display
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="modal-block">
+          <h4>Type</h4>
+          <p>Standalone plugin, publicly listed and installable from any WordPress dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">04 — Skills</div>
+        <h2 class="section-title">Depth where it counts.</h2>
+      </div>
+    </div>
+    <div class="skills-grid reveal" id="skillsGrid">
+      <div class="skill-row"><span class="skill-name">WordPress</span><div class="skill-track"><div class="skill-fill" data-pct="95"></div></div><span class="skill-pct">95%</span></div>
+      <div class="skill-row"><span class="skill-name">PHP</span><div class="skill-track"><div class="skill-fill" data-pct="90"></div></div><span class="skill-pct">90%</span></div>
+      <div class="skill-row"><span class="skill-name">WooCommerce</span><div class="skill-track"><div class="skill-fill" data-pct="85"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-row"><span class="skill-name">Page Speed Optimization</span><div class="skill-track"><div class="skill-fill" data-pct="85"></div></div><span class="skill-pct">85%</span></div>
+      <div class="skill-row"><span class="skill-name">Block Development</span><div class="skill-track"><div class="skill-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+      <div class="skill-row"><span class="skill-name">API Integration</span><div class="skill-track"><div class="skill-fill" data-pct="82"></div></div><span class="skill-pct">82%</span></div>
+      <div class="skill-row"><span class="skill-name">Payment Gateway Integration</span><div class="skill-track"><div class="skill-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+      <div class="skill-row"><span class="skill-name">WordPress Multisite</span><div class="skill-track"><div class="skill-fill" data-pct="75"></div></div><span class="skill-pct">75%</span></div>
+      <div class="skill-row"><span class="skill-name">Webflow</span><div class="skill-track"><div class="skill-fill" data-pct="70"></div></div><span class="skill-pct">70%</span></div>
+      <div class="skill-row"><span class="skill-name">Wix</span><div class="skill-track"><div class="skill-fill" data-pct="65"></div></div><span class="skill-pct">65%</span></div>
+      <div class="skill-row"><span class="skill-name">JavaScript / jQuery / Ajax</span><div class="skill-track"><div class="skill-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+      <div class="skill-row"><span class="skill-name">HTML / CSS</span><div class="skill-track"><div class="skill-fill" data-pct="90"></div></div><span class="skill-pct">90%</span></div>
+    </div>
+    <p class="skills-note">Self-assessed proficiency levels, based on years of hands-on production use for each skill.</p>
+  </div>
+</section>
+
+
+<section id="resume">
+  <div class="wrap">
+    <div class="split">
+      <div class="reveal">
+        <div class="eyebrow">06 — Résumé</div>
+        <h2 class="section-title">Everything, one click away.</h2>
+        <p class="section-sub">Languages: English, Hindi, Gujarati. Based in Ahmedabad, Gujarat, India.</p>
+
+        <div style="margin-top:32px;">
+          <div class="link-row">
+            <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg></span>Email</span>
+            <span class="v">bhaveshnayi78@gmail.com</span>
+          </div>
+          <div class="link-row">
+            <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Phone</span>
+            <span class="v">+91 82004 75025</span>
+          </div>
+          <div class="link-row">
+            <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>Location</span>
+            <span class="v">Ahmedabad, Gujarat, India</span>
+          </div>
+          <div class="link-row">
+            <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>Related Post Display</span>
+            <a class="v" href="https://wordpress.org/plugins/related-posts-display" target="_blank" rel="noopener" style="color:var(--accent);">wordpress.org →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" id="contact">
+        <div class="contact-card">
+          <div class="eyebrow" style="margin-bottom:8px;">06 — Contact</div>
+          <h3 style="font-size:22px;margin-bottom:6px;">Start a conversation</h3>
+          <p class="text-secondary" style="font-size:14px;margin-bottom:24px;">Hiring, freelance, or a WordPress project you want built right — I read everything.</p>
+          <form id="contactForm" action="https://formspree.io/f/xpqvybkp" method="POST">
+            <div class="form-field"><label>Name</label><input type="text" name="name" required placeholder="Your name"></div>
+            <div class="form-field"><label>Email</label><input type="email" name="email" required placeholder="you@company.com"></div>
+            <div class="form-field"><label>Message</label><textarea rows="4" name="message" required placeholder="Tell me about the project or role..."></textarea></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactSubmitBtn">Send Message</button>
+          </form>
+          <p id="formSuccess" style="display:none;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;color:var(--good);">✓ Thanks — I'll reply within one business day.</p>
+          <p id="formError" style="display:none;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;color:var(--bad);">Something went wrong — please try again or email me directly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="nav-logo"><span class="dot"></span>bhavesh.dev</div>
+      <div class="footer-links">
+        <a href="#about">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#plugin">Plugin</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-note">Ahmedabad, India</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Theme toggle */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var stored = localStorage.getItem('bn-theme');
+  if(stored) root.setAttribute('data-theme', stored);
+  function applyIcon(){
+    var t = root.getAttribute('data-theme');
+    themeBtn.querySelector('svg').innerHTML = t === 'dark'
+      ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'
+      : '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>';
+  }
+  applyIcon();
+  themeBtn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('bn-theme', next);
+    applyIcon();
+  });
+
+  /* Nav scroll state */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 12);
+  }, { passive:true });
+
+  /* Scroll reveal */
+  var revealEls = document.querySelectorAll('.reveal, .stagger');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  /* Counters */
+  var counters = document.querySelectorAll('[data-count]');
+  var countIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      var target = parseFloat(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      var start = 0, duration = 1200, startTime = null;
+      function step(ts){
+        if(!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var val = start + (target - start) * eased;
+        el.textContent = Math.round(val) + suffix;
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      countIo.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(function(el){ countIo.observe(el); });
+
+  /* Skill bars */
+  var skillFills = document.querySelectorAll('.skill-fill');
+  var skillIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.style.width = e.target.getAttribute('data-pct') + '%';
+        skillIo.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  skillFills.forEach(function(el){ skillIo.observe(el); });
+
+  /* Marquee duplication for seamless loop */
+  var track = document.getElementById('marqueeTrack');
+  track.innerHTML += track.innerHTML;
+
+  /* -------- Real project data, from resume -------- */
+  var PROJECTS = [
+    { key:'soul2sole', name:'Soul2Sole', cat:'wordpress', tag:'WordPress', glyph:'S2S', url:'https://soul2sole.ca', overview:'Dance academy website. Redesigned on a custom WordPress theme, with registration handled through Activity Messenger integration.' },
+    { key:'futebol365', name:'Futebol365', cat:'wordpress', tag:'Migration', glyph:'F365', url:'https://futebol365.pt', overview:'Migration project moving a football news site from Django to WordPress, rebuilt on a custom theme.' },
+    { key:'devlogic', name:'Devlogic', cat:'wordpress', tag:'WordPress', glyph:'DVL', url:'https://devlogic.nl', overview:'Company website showcasing services, plus a blog built to the client\'s requirements.' },
+    { key:'avports', name:'Avports', cat:'wordpress', tag:'WordPress', glyph:'AVP', url:'https://avports.com', overview:'Airport-based website displaying content per station, with location-specific pages for each of the airport\'s locations.' },
+    { key:'kasha', name:'Kasha', cat:'wordpress', tag:'WordPress', glyph:'KSH', url:'https://kasha.com.au', overview:'Real estate website for an independent buyers\' agency, covering residential and commercial property.' },
+    { key:'ndn', name:'Ndn Collective', cat:'wordpress', tag:'WordPress', glyph:'NDN', url:'https://ndncollective.org', overview:'Community website featuring podcasts, a newsletter, blog content, and event listings.' },
+    { key:'oxford', name:'Oxford Reality', cat:'wordpress', tag:'WordPress', glyph:'OXR', url:'https://oxfordrealtynd.com', overview:'Real estate website listing homes for rent and sale, along with the agents behind them.' },
+    { key:'uistudioz', name:'Uistudioz', cat:'wordpress', tag:'WordPress', glyph:'UIS', url:'https://uistudioz.com', overview:'Company website presenting design services and pricing.' },
+    { key:'deonde', name:'Deonde', cat:'wordpress', tag:'WordPress', glyph:'DEO', url:'https://deonde.co/blog', overview:'Blog site displaying the company\'s published articles.' },
+    { key:'icoderz', name:'Icoderz', cat:'wordpress', tag:'WordPress', glyph:'ICZ', url:'https://www.icoderzsolutions.com/blog', overview:'Company website presenting services alongside the company blog.' },
+    { key:'securis', name:'Securis', cat:'wordpress', tag:'WordPress', glyph:'SEC', url:'https://www.securis360.com/blog', overview:'Client website blog for a cyber-security services provider.' },
+    { key:'plotify', name:'Plotify', cat:'webflow', tag:'Webflow', glyph:'PLT', url:'https://plotify.co', overview:'Built in Webflow from a Figma design, displaying services and membership plans.' },
+    { key:'quiceat', name:'Quiceat', cat:'webflow', tag:'Webflow', glyph:'QCE', url:'https://quiceat.webflow.io', overview:'Built in Webflow from a Figma design, showcasing a food-delivery service.' },
+    { key:'sneakerx', name:'SneakerX', cat:'wix', tag:'Wix', glyph:'SNX', url:'https://icoderzsolutionswe.wixstudio.com/sneakerx', overview:'Built in Wix from a Figma design, for an online sneaker store.' },
+    { key:'snacksy', name:'Snacksy', cat:'wix', tag:'Wix', glyph:'SNK', url:'https://icoderzsolutionswe.wixstudio.com/snacksy', overview:'Built in Wix from a Figma design, for a food services brand.' },
+    { key:'gavco', name:'Gavco Jewellers', cat:'wordpress', tag:'WooCommerce', glyph:'GAV', url:'http://gavcoboutique.com/', overview:'Live WordPress store selling jewellery online, with PayPal, Bitcoin, and credit-card payment plus USPS shipping.' },
+    { key:'trading360', name:'Trading360', cat:'wordpress', tag:'WordPress', glyph:'T360', url:'https://trading-360.com/', overview:'Website displaying dynamic share prices as per current market data.' },
+    { key:'sensible', name:'Sensible Senior Planning', cat:'wordpress', tag:'WordPress', glyph:'SSP', url:'https://sensibleseniorplanning.com/', overview:'Site assisting clients and providers through the Medicaid process, with PayPal payment and fund transfer built in.' },
+    { key:'investacademy', name:'Invest Academy', cat:'wordpress', tag:'API', glyph:'IVA', url:'https://investacademy.io/', overview:'Trading-focused website using an API to auto-detect a visitor\'s country from their IP address, per client requirements.' },
+    { key:'htbcloud', name:'HTBCloud', cat:'wordpress', tag:'WordPress', glyph:'HTB', url:'https://htbcloud.com/', overview:'WordPress site presenting the client\'s Red Cloud system via video, built to their specification.' },
+    { key:'vindaloo', name:'Vindaloo Softtech', cat:'wordpress', tag:'CRM', glyph:'VST', url:'https://vindaloosofttech.com/', overview:'Company website built in WordPress, with CRM integration on the contact form for proposal-based record keeping.' },
+    { key:'executel', name:'Executel', cat:'wordpress', tag:'WordPress', glyph:'EXT', url:'https://executel.com/', overview:'WordPress site presenting VoIP and PBX services, built to client requirements.' },
+    { key:'aceacademy', name:'Ace Academy Semester X', cat:'wordpress', tag:'WordPress', glyph:'ACE', url:'https://aceacademy.net.in/', overview:'Live WordPress site providing test papers, test results, and academy updates for students.' }
+  ];
+
+  var grid = document.getElementById('projectsGrid');
+  PROJECTS.forEach(function(p){
+    var card = document.createElement('article');
+    card.className = 'project-card';
+    card.setAttribute('data-cat', p.cat);
+    card.setAttribute('data-key', p.key);
+    card.innerHTML =
+      '<div class="project-cover"><span class="project-tag">'+p.tag+'</span><span class="glyph">'+p.glyph+'</span></div>' +
+      '<div class="project-body">' +
+        '<h3>'+p.name+'</h3>' +
+        '<p>'+p.overview+'</p>' +
+        '<div class="project-link">View details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+
+  var cards = document.querySelectorAll('.project-card');
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        var show = f === 'all' || card.getAttribute('data-cat') === f;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  var overlay = document.getElementById('modalOverlay');
+  var modalEyebrow = document.getElementById('modalEyebrow');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalBody = document.getElementById('modalBody');
+
+  function openModal(key){
+    var p = PROJECTS.find(function(x){ return x.key === key; });
+    if(!p) return;
+    modalEyebrow.textContent = p.tag;
+    modalTitle.textContent = p.name;
+    modalBody.innerHTML =
+      '<div class="modal-block"><h4>Overview</h4><p>' + p.overview + '</p></div>' +
+      '<div class="modal-block"><h4>Live site</h4><a class="modal-visit" href="'+p.url+'" target="_blank" rel="noopener">'+p.url.replace(/^https?:\/\//,'')+' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){ openModal(card.getAttribute('data-key')); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  /* Contact form -> Formspree */
+  var contactForm = document.getElementById('contactForm');
+  var submitBtn = document.getElementById('contactSubmitBtn');
+  var successMsg = document.getElementById('formSuccess');
+  var errorMsg = document.getElementById('formError');
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(response){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+      if(response.ok){
+        contactForm.reset();
+        successMsg.style.display = 'flex';
+      } else {
+        errorMsg.style.display = 'flex';
+      }
+    }).catch(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+      errorMsg.style.display = 'flex';
+    });
+  });
+
+  /* Mobile burger */
+  var burger = document.getElementById('burgerBtn');
+  burger.addEventListener('click', function(){
+    var links = document.querySelector('.nav-links');
+    var isOpen = links.style.display === 'flex';
+    links.style.cssText = isOpen ? '' : 'display:flex;flex-direction:column;position:fixed;top:64px;left:16px;right:16px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:14px;padding:10px;gap:2px;box-shadow:0 20px 50px -20px rgba(0,0,0,.5);';
+  });
+
+})();
+</script>
+</body>
+</html>
