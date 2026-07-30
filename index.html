@@ -958,6 +958,56 @@
       transform: translateX(4px);
     }
 
+    /* SKELETON LOADING */
+    .skeleton-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .skeleton-cover {
+      height: 120px;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-body {
+      padding: 20px 22px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .skeleton-line {
+      height: 12px;
+      border-radius: 6px;
+      background: var(--border-soft);
+      position: relative;
+      overflow: hidden;
+    }
+    .skeleton-line.w-60 { width: 60%; height: 16px; }
+    .skeleton-line.w-100 { width: 100%; }
+    .skeleton-line.w-90 { width: 90%; }
+    .skeleton-line.w-70 { width: 70%; margin-top: 8px; }
+    .skeleton-cover::after,
+    .skeleton-line::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text-primary) 8%, transparent), transparent);
+      animation: shimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+    .projects-grid.is-loaded .skeleton-card { display: none; }
+    .projects-grid .project-card { display: none; }
+    .projects-grid.is-loaded .project-card { display: flex; }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -1570,7 +1620,14 @@
         </div>
       </div>
 
-      <div class="projects-grid stagger" id="projectsGrid"></div>
+      <div class="projects-grid stagger" id="projectsGrid">
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-cover"></div><div class="skeleton-body"><div class="skeleton-line w-60"></div><div class="skeleton-line w-100"></div><div class="skeleton-line w-90"></div><div class="skeleton-line w-70"></div></div></div>
+      </div>
     </div>
   </section>
 
@@ -1903,61 +1960,83 @@
       ];
 
       var grid = document.getElementById('projectsGrid');
-      PROJECTS.forEach(function (p) {
-        var card = document.createElement('article');
-        card.className = 'project-card';
-        card.setAttribute('data-cat', p.cat);
-        card.setAttribute('data-key', p.key);
-        card.innerHTML =
-          '<div class="project-cover"><span class="project-tag">' + p.tag + '</span><span class="glyph">' + p.glyph + '</span></div>' +
-          '<div class="project-body">' +
-          '<h3>' + p.name + '</h3>' +
-          '<p>' + p.overview + '</p>' +
-          '<div class="project-link">View details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>' +
-          '</div>';
-        grid.appendChild(card);
-      });
 
-      var cards = document.querySelectorAll('.project-card');
-      var filterBtns = document.querySelectorAll('.filter-btn');
-      filterBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          filterBtns.forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          var f = btn.getAttribute('data-filter');
-          cards.forEach(function (card) {
-            var show = f === 'all' || card.getAttribute('data-cat') === f;
-            card.style.display = show ? '' : 'none';
+      function renderProjects() {
+        var frag = document.createDocumentFragment();
+        PROJECTS.forEach(function (p) {
+          var card = document.createElement('article');
+          card.className = 'project-card';
+          card.setAttribute('data-cat', p.cat);
+          card.setAttribute('data-key', p.key);
+          card.innerHTML =
+            '<div class="project-cover"><span class="project-tag">' + p.tag + '</span><span class="glyph">' + p.glyph + '</span></div>' +
+            '<div class="project-body">' +
+            '<h3>' + p.name + '</h3>' +
+            '<p>' + p.overview + '</p>' +
+            '<div class="project-link">View details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>' +
+            '</div>';
+          frag.appendChild(card);
+        });
+        grid.appendChild(frag);
+
+        var cards = document.querySelectorAll('.project-card');
+
+        var filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            filterBtns.forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var f = btn.getAttribute('data-filter');
+            cards.forEach(function (card) {
+              var show = f === 'all' || card.getAttribute('data-cat') === f;
+              card.style.display = show ? '' : 'none';
+            });
           });
         });
-      });
 
-      var overlay = document.getElementById('modalOverlay');
-      var modalEyebrow = document.getElementById('modalEyebrow');
-      var modalTitle = document.getElementById('modalTitle');
-      var modalBody = document.getElementById('modalBody');
+        var overlay = document.getElementById('modalOverlay');
+        var modalEyebrow = document.getElementById('modalEyebrow');
+        var modalTitle = document.getElementById('modalTitle');
+        var modalBody = document.getElementById('modalBody');
 
-      function openModal(key) {
-        var p = PROJECTS.find(function (x) { return x.key === key; });
-        if (!p) return;
-        modalEyebrow.textContent = p.tag;
-        modalTitle.textContent = p.name;
-        modalBody.innerHTML =
-          '<div class="modal-block"><h4>Overview</h4><p>' + p.overview + '</p></div>' +
-          '<div class="modal-block"><h4>Live site</h4><a class="modal-visit" href="' + p.url + '" target="_blank" rel="noopener">' + p.url.replace(/^https?:\/\//, '') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>';
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        function openModal(key) {
+          var p = PROJECTS.find(function (x) { return x.key === key; });
+          if (!p) return;
+          modalEyebrow.textContent = p.tag;
+          modalTitle.textContent = p.name;
+          modalBody.innerHTML =
+            '<div class="modal-block"><h4>Overview</h4><p>' + p.overview + '</p></div>' +
+            '<div class="modal-block"><h4>Live site</h4><a class="modal-visit" href="' + p.url + '" target="_blank" rel="noopener">' + p.url.replace(/^https?:\/\//, '') + ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></div>';
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+          overlay.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        cards.forEach(function (card) {
+          card.addEventListener('click', function () { openModal(card.getAttribute('data-key')); });
+        });
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+
+        /* swap skeletons for real cards, re-trigger stagger animation */
+        grid.classList.remove('is-visible');
+        grid.classList.add('is-loaded');
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            grid.classList.add('is-visible');
+          });
+        });
       }
-      function closeModal() {
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-      cards.forEach(function (card) {
-        card.addEventListener('click', function () { openModal(card.getAttribute('data-key')); });
+
+      /* Build the cards on next frame so the skeleton is visible for at least one paint,
+         then hold briefly so the shimmer doesn't just flash. Swap this timeout for a real
+         fetch()/then() call later if project data ever comes from an API. */
+      window.addEventListener('DOMContentLoaded', function () {
+        setTimeout(renderProjects, 500);
       });
-      document.getElementById('modalClose').addEventListener('click', closeModal);
-      overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
       /* Contact form -> Formspree */
       var contactForm = document.getElementById('contactForm');
