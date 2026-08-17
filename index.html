@@ -1158,6 +1158,23 @@
       }
     }
 
+    .theme-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .theme-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid transparent;
+    }
+
     /* SKILLS */
     .skills-grid {
       display: grid;
@@ -1417,6 +1434,7 @@
         <li><a href="#about">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#plugin">Plugin</a></li>
+        <li><a href="#themes">Themes</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -1450,7 +1468,8 @@
           <h1>WordPress builds that <span>hold up</span> after launch.</h1>
           <p class="hero-sub">I'm Bhavesh Nayi — a Senior WordPress Developer based in Ahmedabad with 7+ years across
             WordPress, PHP, Webflow and Wix. I've shipped 20+ client sites: custom themes, WooCommerce stores,
-            page-speed fixes, API integrations and one published WordPress.org plugin.</p>
+            page-speed fixes, API integrations, a published WordPress.org plugin, and a published WordPress.org
+            block theme.</p>
           <div class="hero-actions">
             <a href="#projects" class="btn btn-primary">View Projects
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
@@ -1463,6 +1482,7 @@
             <div><strong data-count="7" data-suffix="+">0</strong>Years Experience</div>
             <div><strong data-count="23" data-suffix="+">0</strong>Projects Shipped</div>
             <div><strong data-count="1" data-suffix="">0</strong>Published Plugin</div>
+            <div><strong data-count="1" data-suffix="">0</strong>Published Theme</div>
             <div><strong data-count="4" data-suffix="">0</strong>Employers</div>
           </div>
         </div>
@@ -1537,8 +1557,8 @@
           <div class="stat-label">Platforms — WordPress, Webflow, Wix</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-num"><span data-count="1" data-suffix="">0</span></div>
-          <div class="stat-label">Plugin published on WordPress.org</div>
+          <div class="stat-num"><span data-count="2" data-suffix="">0</span></div>
+          <div class="stat-label">Products on WordPress.org — 1 plugin, 1 theme</div>
         </div>
       </div>
     </div>
@@ -1661,7 +1681,7 @@
       <div class="plugin-card reveal">
         <div class="plugin-head">
           <div>
-            <h3>Related Post Display</h3>
+            <h3>Related Posts Display</h3>
             <p class="text-secondary" style="font-size:14px;margin-top:6px;">A WordPress plugin for displaying related
               posts, published on the official WordPress.org plugin directory.</p>
           </div>
@@ -1687,11 +1707,65 @@
     </div>
   </section>
 
+  <section id="themes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">04 — Theme</div>
+          <h2 class="section-title">A block theme, built for travel &amp; lifestyle blogs.</h2>
+        </div>
+      </div>
+
+      <div class="plugin-card reveal">
+        <div class="plugin-head">
+          <div>
+            <h3>Blokio</h3>
+            <p class="text-secondary" style="font-size:14px;margin-top:6px;">A premium, lightweight Full Site Editing
+              (FSE) theme for modern travel and lifestyle blogs — immersive hero sections, elegant card layouts, and a
+              full block pattern library, with no page-builder dependency. Published on the official WordPress.org
+              theme directory.</p>
+          </div>
+          <span class="plugin-badge">● Published</span>
+        </div>
+        <div class="plugin-cols">
+          <div class="modal-block">
+            <h4>Where to find it</h4>
+            <a class="modal-visit" href="https://wordpress.org/themes/blokio/" target="_blank" rel="noopener">
+              wordpress.org/themes/blokio
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+          <div class="modal-block">
+            <h4>Requirements</h4>
+            <p>WordPress 6.8+ · PHP 8.0+ · Full Site Editing (block theme)</p>
+          </div>
+        </div>
+        <div class="modal-block">
+          <h4>Features</h4>
+          <div class="theme-tags">
+            <span class="theme-tag">Full Site Editing</span>
+            <span class="theme-tag">Block Patterns</span>
+            <span class="theme-tag">Custom Colors</span>
+            <span class="theme-tag">Editor Style</span>
+            <span class="theme-tag">Featured Images</span>
+            <span class="theme-tag">Sticky Post</span>
+            <span class="theme-tag">Threaded Comments</span>
+            <span class="theme-tag">RTL Support</span>
+            <span class="theme-tag">Translation Ready</span>
+            <span class="theme-tag">One &amp; Two Columns</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="skills">
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <div class="eyebrow">04 — Skills</div>
+          <div class="eyebrow">05 — Skills</div>
           <h2 class="section-title">Depth where it counts.</h2>
         </div>
       </div>
@@ -1717,6 +1791,11 @@
           </div><span class="skill-pct">85%</span>
         </div>
         <div class="skill-row"><span class="skill-name">Block Development</span>
+          <div class="skill-track">
+            <div class="skill-fill" data-pct="80"></div>
+          </div><span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-row"><span class="skill-name">Full Site Editing (FSE) Themes</span>
           <div class="skill-track">
             <div class="skill-fill" data-pct="80"></div>
           </div><span class="skill-pct">80%</span>
@@ -1801,9 +1880,28 @@
                     stroke-width="2">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z" />
-                  </svg></span>Related Post Display</span>
+                  </svg></span>Related Posts Display</span>
               <a class="v" href="https://wordpress.org/plugins/related-posts-display" target="_blank" rel="noopener"
                 style="color:var(--accent);">wordpress.org →</a>
+            </div>
+            <div class="link-row">
+              <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <path d="M3 9h18M9 21V9" />
+                  </svg></span>Blokio Theme</span>
+              <a class="v" href="https://wordpress.org/themes/blokio/" target="_blank" rel="noopener"
+                style="color:var(--accent);">wordpress.org →</a>
+            </div>
+            <div class="link-row">
+              <span class="l"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    <path d="M12.5 21H2v-2a6 6 0 0 1 12 0z" />
+                    <circle cx="8.5" cy="7" r="4" />
+                  </svg></span>WordPress.org Profile</span>
+              <a class="v" href="https://profiles.wordpress.org/bhavesh456/" target="_blank" rel="noopener"
+                style="color:var(--accent);">@bhavesh456 →</a>
             </div>
           </div>
         </div>
@@ -1844,6 +1942,7 @@
           <a href="#about">Experience</a>
           <a href="#projects">Projects</a>
           <a href="#plugin">Plugin</a>
+          <a href="#themes">Themes</a>
           <a href="#skills">Skills</a>
           <a href="#contact">Contact</a>
         </div>
